@@ -1,51 +1,26 @@
 import { log } from './utils';
 import { printTodos } from './print-todos';
+import { init as initForm } from './form';
 import './todos.css';
 
-const todos = [
-    {title: "HTML", isDone: true},
-    {title: "JS", isDone: true},
-    {title: "React", isDone: true}
-]
-
-const $form = document.querySelector('.new-task');
-const $input = document.querySelector('.new-task > input');
-
-const checkTodo = (event) => {
-    event.preventDefault();
-    console.log($input.value);
-
-    //todo추가
-    const todo = {title: $input.value, isDone: false};
-    todos.push(todo);
-    console.log(todos);
-
-    //input 초기화
-    $input.value = ""
-    
-    //todos출력
-    print()
-}
-
-// 폼,input 입력 이벤트 추가하기
-// 입력했을때 todo추가
-$form.addEventListener('submit', checkTodo);
-
+const todos = []
 const deleteTodo=(index) => {
     console.log('delete', index);
     //todos에서 index번째 todo삭제
-    todos.splice(index,1)
+    todos.splice(index, 1)
     print()
-};
-
-const toggleTodo=()=> {
-    console.log('toggle');
 };
 
 const print=()=> {
     printTodos(todos);
 };
 
+const toggleTodo=(index)=> {
+    console.log('toggle');
+    //index에 맞는 todo.isDone 반전
+    todos[index].isDone = !todos[index].isDone;
+    print();
+};
 //삭제
 document.body.addEventListener('click', (event)=> {
     const index = parseInt(event.target.parentNode.dataset.index, 10);
@@ -54,9 +29,6 @@ document.body.addEventListener('click', (event)=> {
     } else if(event.target.className==="toggle-checked") {
         toggleTodo(index);
     }
-})
-
+});
+initForm(todos);
 print();
-
-
-
